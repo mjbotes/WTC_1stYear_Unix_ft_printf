@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:32:29 by mbotes            #+#    #+#             */
-/*   Updated: 2019/05/30 14:58:35 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/05/30 14:16:59 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,18 @@ void	ft_chardesc(char **c, t_format *form)
 	char *ptr;
 
 	n = 1;
-	if (ft_strncmp(*c,"hh",2) == 0 || ft_strncmp(*c, "ll", 2) == 0)
-		n = 2;
-	form->format = ft_strndup(*(c), n);
-	tmp = ft_strdup(*(c) + n );
-	ft_strdel(c);
+	if (*c[0] == 'h')
+	{
+		if (*c[1] == 'h')
+			n = 2;
+	}
+	else if (*c[0] == 'l')
+		if (*c[1] == 'l')
+			n = 2;
+	form->format = ft_strndup(*c, n);
+	tmp = ft_strdup(*(c) + n);
+	ptr = *c;
+	ft_strdel(&ptr);
 	*c = ft_strdup(tmp);
 	ft_strdel(&tmp);
 }
