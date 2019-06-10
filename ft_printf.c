@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:32:29 by mbotes            #+#    #+#             */
-/*   Updated: 2019/05/30 14:58:35 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/10 16:20:08 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,10 @@ void	ft_flag(char **c, t_format *form)
 	int		loop;
 
 	loop = 0;
-	if (*c[0] == '0')
-	{
-		if (ft_isdigit(*c[loop]))
-			ft_zeropad(c, form);
-	}
-	else if (*c[0] == '-')
-	{
-		if (ft_isdigit(*c[1]))
-			ft_leftjustify(c, form);
-	}
-	else if (ft_isdigit(*c[0]))
-		ft_rightjustify(c, form);
-	else if (*c[0] == '#')
-		ft_hashtag(&c, form);
-	else if (*c[0] == ' ')
-		if (ft_isdigit(*c[1]))
-			ft_space(c, form);
+	if (*c[0] == '#')
+		ft_hashtag(c, form);
+	else
+		ft_justify(c, form);	
 }
 
 int		ft_ischardesc(char c)
@@ -104,31 +91,38 @@ int		ft_printf(const char *format, ...)
 		{
 			tmp = ft_strdup(&str[loop + 1]);
 			str[loop] = '\0';
-			if (!(form = ft_newformat()))
-				return (-1);
 			ft_putstr(str);
 			ft_strdel(&str);
 			loop = 0;
+			form = ft_newformat();
 			while (ft_isflag(tmp[0]) || ft_ischardesc(tmp[0]))
 			{
+				if (form == NULL)
+				   form = ft_newformat();	
 				if (ft_isflag(tmp[0]))
 					ft_flag(&tmp, form);
-				if (ft_ischardesc(tmp[0]))
+				else if (ft_ischardesc(tmp[0]))
 					ft_chardesc(&tmp, form);
 			}
-			if (ft_isidentifier(tmp[loop]))
+			if (ft_isidentifier(tmp[0]))
 				ft_identifier(tmp[0], ap, form);
+			if (tmp[0] == '\0')
+				break ;
 			str = ft_strdup(tmp + 1);
 			ft_strdel(&tmp);
+			if (form != NULL)
+				ft_delformat(&form);
 		}
 		loop++;
 	}
 	ft_putstr(str);
 	va_end(ap);
+	ft_strdel(&str);
 	return (0);
 }
 
 int		main()
 {
-	ft_printf("test 1 :%s my name is %s and i am %hhi", "hi", "marnus", 'c');
-}
+	ft_printf("test 1 :%s my name is %s and i am %x, my surname starts with a % 2c yeah\n", "hi", "marnus", 99, 'B');
+	printf("test 1 :%s my name is %s and i am %x, my surname starts with a % 2c yeah\n", "hi", "marnus", 99, 'B');
+ }

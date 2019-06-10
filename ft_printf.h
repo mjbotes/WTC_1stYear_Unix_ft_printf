@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 07:34:28 by mbotes            #+#    #+#             */
-/*   Updated: 2019/05/30 12:12:43 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/10 16:14:11 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ struct		s_format
 {
 	int 	right_pad;
 	int 	left_pad;
-	int		zero_pad;
+	char	pad_type;
 	char	*format;
 }typedef	t_format;
 
@@ -37,11 +37,8 @@ int			ft_isidentifier(char c);
 void		ft_identifier(char c, va_list ap, t_format *form);
 int			ft_isflag(char c);
 void		ft_flag(char **c, t_format *form);
-void		ft_zeropad(char **c, t_format *form);
-void		ft_leftjustify(char **c, t_format *form);
-void		ft_rightjustify(char **c, t_format *form);
+void		ft_justify(char **c, t_format *form);
 void		ft_hashtag();
-void		ft_space();
 int			ft_ischardesc(char c);
 void		ft_chardesc(char **c, t_format *form);
 int			ft_charint(t_format *form);
@@ -52,3 +49,5 @@ int			ft_sizet(t_format *form);
 int			ft_printf(const char *format, ...);
 t_format	*ft_newformat();
 void		ft_delformat(t_format **ptr);
+void	ft_printer(char *str, t_format *form);
+char	*ft_itoa_base(int n, int base);

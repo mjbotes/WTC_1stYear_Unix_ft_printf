@@ -6,13 +6,13 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 09:07:56 by mbotes            #+#    #+#             */
-/*   Updated: 2019/05/30 13:12:17 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/10 16:20:54 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_itohexi(int n)
+char	*ft_itoa_base(int n, int base)
 {
 	int		temp;
 	char	*str;
@@ -20,46 +20,21 @@ char	*ft_itohexi(int n)
 
 	temp = n;
 	size = 0;
-	while (temp > 1)
+	while (temp > 0)
 	{
-		temp = temp / 16;
+		temp = temp / base;
 		size++;
 	}
 	str = ft_strnew(size + 1);
 	size--;
 	while (size >= 0)
 	{
-		temp = n % 16;
-		n = n / 16;
+		temp = n % base;
+		n = n / base;
 		if (temp < 10)
 			str[size] = temp + '0';
 		else
-			str[size] = temp - 10 + 'a';
-		size--;
-	}
-	return (str);
-}
-
-char	*ft_itooctal(int n)
-{
-	int		temp;
-	char	*str;
-	int		size;
-
-	temp = n;
-	size = 0;
-	while (temp > 1)
-	{
-		temp = temp / 8;
-		size++;
-	}
-	str = ft_strnew(size + 1);
-	size--;
-	while (size >= 0)
-	{
-		temp = n % 8;
-		n = n / 8;
-		str[size] = temp + '0';
+			str[size] = (temp - 10) + 'a';
 		size--;
 	}
 	return (str);
