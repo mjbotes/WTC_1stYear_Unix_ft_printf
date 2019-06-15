@@ -6,13 +6,13 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 09:07:56 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/12 09:01:16 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/15 14:26:37 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
 
-char	*ft_itoa_base(int n, int base)
+char	*ft_itoa_base(int n, long base)
 {
 	int		temp;
 	char	*str;
@@ -22,7 +22,7 @@ char	*ft_itoa_base(int n, int base)
 	size = 0;
 	if (n == 0)
 		return (strdup("0"));
-	while (temp > 0)
+	while (temp != 0)
 	{
 		temp = temp / base;
 		size++;

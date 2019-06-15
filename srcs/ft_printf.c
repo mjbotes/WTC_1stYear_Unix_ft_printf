@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:32:29 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/13 15:45:04 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/15 15:22:08 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,30 @@
 
 int		ft_isidentifier(char c)
 {
-	return (c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'o' || c == 'O' || c == 'x' || c == 'X' || c == 'c' || c == 'C' || c == '%');
+	return (c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'o' || 
+		   	c == 'O' || c == 'x' || c == 'X' || c == 'c' || c == 'C' || 
+			c == '%' || c == 'p');
 }
 
-void	ft_identifier(char c, va_list ap, t_format *form)
+int		ft_identifier(char c, va_list ap, t_format *form)
 {
 	if (c == 's')
-		ft_isstring(ap, form);
-	else if (c == 'i' || c == 'd')
-		ft_isint(ap, form);
-	else if (c == 'u')
-		ft_isuint(ap, form);
-	else if (c == 'o' || c == 'O')
-		ft_isoct(ap, form);
-	else if (c == 'x' || c == 'X')
-		ft_ishexi(ap, c, form);
-	else if (c == 'c')
-		ft_ischar(ap, form);
-	else if (c == 'C')
-		ft_isunicode(ap, form);
-	else if (c == '%')
-		ft_printer("%", form);
+		return (ft_isstring(ap, form));
+	if (c == 'i' || c == 'd')
+		return (ft_isint(ap, form));
+	if (c == 'u')
+		return (ft_isuint(ap, form));
+	if (c == 'o' || c == 'O')
+		return (ft_isoct(ap, form));
+	if (c == 'x' || c == 'X')
+		return (ft_ishexi(ap, c, form));
+	if (c == 'c')
+		return (ft_ischar(ap, form));
+	if (c == 'C')
+		return (ft_isunicode(ap, form));
+	if (c == 'p')
+		return (ft_printmem(ap, form));
+	return (ft_printer("%", form));
 }
 
 int		ft_isflag(char c)
@@ -81,50 +84,48 @@ int		ft_printf(const char *format, ...)
 	va_list		ap;
 	char		*tmp;
 	char		*str;
-	int			loop;
+	char		*ptr;
+	int			ret;
 	t_format	*form;
 
+	if (format == NULL)
+		return (0);
 	va_start(ap, format);
-	loop = -1;
+	ret = 0;
 	str = ft_strdup(format);
-	while (str[++loop] != '\0')
-		if (str[loop] == '%')
+	while ((ptr = ft_replacechr(&str, '%', '\0')) != NULL)
+	{
+		ft_printer(str, form);
+		tmp = ft_strdup(ptr + 1);
+		ft_strdel(&str);
+		while (tmp[0])
 		{
-			str[loop] = '\0';
-			//ft_putstr(str);
-			loop++;
-			tmp = ft_strdup(&str[loop]);
-			ft_strdel(&str);
-			loop = 0;
-			form = ft_newformat();
-			while (tmp[0])
+			if (form == NULL)
+			   form = ft_newformat();	
+			if (ft_isflag(tmp[0]))
+				ft_flag(&tmp, form);
+			else if (ft_ischardesc(tmp[0]))
+				ft_chardesc(&tmp, form);
+			else if (ft_isidentifier(tmp[0]))
 			{
-				if (form == NULL)
-				   form = ft_newformat();	
-				if (ft_isflag(tmp[0]))
-					ft_flag(&tmp, form);
-				else if (ft_ischardesc(tmp[0]))
-					ft_chardesc(&tmp, form);
-				else if (ft_isidentifier(tmp[0]))
-				{
-					ft_identifier(tmp[0], ap, form);
-					break ;
-				}
-				else
-				{
-					str = ft_strdup(&tmp[1]);
-					ft_strdel(&tmp);
-					tmp = ft_strdupdel(&str);
-				}
+				ret += ft_identifier(tmp[0], ap, form);
+				break ;
 			}
-			if (tmp[0] == '\0')
-				break; 
-			str = ft_strdup(tmp + 1);
-			ft_strdel(&tmp);
-			ft_delformat(&form);
+			else
+			{
+				str = ft_strdup(&tmp[1]);
+				ft_strdel(&tmp);
+				tmp = ft_strdupdel(&str);
+			}
 		}
+		if (tmp[0] == '\0')
+			break ;
+		str = ft_strdup(tmp + 1);
+		ft_strdel(&tmp);
+		ft_delformat(&form);
+	}
 	ft_putstr(str);
 	va_end(ap);
 	ft_strdel(&str);
-	return (0);
+	return (ret);
 }
