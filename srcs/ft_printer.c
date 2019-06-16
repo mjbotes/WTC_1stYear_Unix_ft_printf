@@ -19,7 +19,7 @@ int	ft_printer(char *str, t_format *form)
 
 	ret = 0;
 	if (form == NULL)
-		return (0);
+		form = ft_newformat();
 	if (form->left_pad != 0)
 	{
 		temp = form->left_pad;
@@ -46,6 +46,6 @@ int	ft_printer(char *str, t_format *form)
 	{
 		temp = form->space;
 		while (++temp < 0)
-			ft_putchar(' ');
+		ft_putchar(' ');
 	}
 }

@@ -23,15 +23,16 @@ t_format	*ft_newformat()
 	new->pad_type = ' ';
 	new->space  = 0;
 	new->format = NULL;
-	new->space = 0;
 	return (new);
 }
 
 void		ft_delformat(t_format **ptr)
 {
 	if ((*ptr)->format != NULL)
+{
 		ft_strdel(&(*ptr)->format);
 	free(*ptr);
 	*ptr = NULL;
 	ptr = NULL;
+}
 }

@@ -12,12 +12,14 @@
 
 #include "../include/ft_printf.h"
 
-int ft_printmem(void *ptr, t_format *form)
+int ft_printmem(va_list ap, t_format *form)
 {
 	long add;
+	void *ptr;
 
+	ptr = va_arg(ap, void *);
 	if (ptr == NULL)
-		return (0);
+		return (ft_printer("0x",form));
 	add = (long)ptr;
 	return (ft_printer(ft_itoa_base(add, 16),form));
 }

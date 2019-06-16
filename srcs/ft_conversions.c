@@ -26,23 +26,27 @@ int ft_ischar(va_list ap, t_format *form)
 
 int	ft_isoct(va_list ap, t_format *form)
 {
-	int		i;
+	long		i;
 	char	*str;
 
-	i = va_arg(ap, int);
-	i = ft_makeunsigned(i);
+	i = va_arg(ap, long);
+	if (i >= 0)
 	str = ft_itoa_base(i, 8);
+	else
+	str = ft_itoa_neg_base(i, 8);
 	return (ft_printer(str, form));
 }
 
 int	ft_ishexi(va_list ap, char c, t_format *form)
 {
-	int		i;
+	long		i;
 	char	*str;
 
-	i = va_arg(ap, int);
-	i = ft_makeunsigned(i);
+	i = va_arg(ap, long);
+	if (i >= 0)
 	str = ft_itoa_base(i,16);
+	else
+	str = ft_itoa_neg_base(i,16);
 	if (c == 'X')
 		str = ft_makeUpper(str);
 	return(ft_printer(str, form));

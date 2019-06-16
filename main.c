@@ -14,6 +14,6 @@
 
 void main()
 {
-	ft_printf("aaBB");
-	printf("aaBB");
+	ft_printf("%x\n", -1);
+	printf("%x", -1);
 }

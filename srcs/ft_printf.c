@@ -95,9 +95,10 @@ int		ft_printf(const char *format, ...)
 	str = ft_strdup(format);
 	while ((ptr = ft_replacechr(&str, '%', '\0')) != NULL)
 	{
-		ft_printer(str, form);
+		ft_putstr(str);
 		tmp = ft_strdup(ptr + 1);
 		ft_strdel(&str);
+	form = ft_newformat();
 		while (tmp[0])
 		{
 			if (form == NULL)
@@ -108,7 +109,7 @@ int		ft_printf(const char *format, ...)
 				ft_chardesc(&tmp, form);
 			else if (ft_isidentifier(tmp[0]))
 			{
-				ret += ft_identifier(tmp[0], ap, form);
+				ft_identifier(tmp[0], ap, form);
 				break ;
 			}
 			else

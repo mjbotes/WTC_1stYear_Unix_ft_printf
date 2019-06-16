@@ -41,22 +41,22 @@ void	ft_justify(char **c, t_format *form)
 	loop = 0;
 	if (form->right_pad == 0 && form->left_pad == 0)
 	{
-		if (*(c)[0] == '0')
+		if ((*c)[0] == '0')
 		{
 			loop = 1;
 			form->pad_type = '0';
 		}
-		if (*(c)[loop] == '+' || *(c)[loop] == '-')
+		if ((*c)[loop] == '+' || (*c)[loop] == '-')
 			loop++;
-		while (ft_isdigit(*(c)[loop]))
+		while (ft_isdigit((*c)[loop]))
 				++loop;
 		if (loop != 0)
 		{
-			str = ft_strsub(*c, 0, loop + 1);
+			str = ft_strsub(*c, 0, loop);
 			num = ft_atoi(str);
 			if (num > 0)
 				form->left_pad = num;
-			if (num < 0 && loop++)
+			if (num < 0)
 				form->right_pad = num;
 			ft_strdel(&str);
 			str = ft_strdup(*(c) + loop);
@@ -80,7 +80,7 @@ void	ft_space(char **c, t_format *form)
 	str = ft_strsub(*c, 1, loop + 1);
 	num = ft_atoi(str);
 	if (num == 0)
-		num = 1;
+		num = 0;
 	form->space += num;
 	if (num < 0)
 		loop++;
