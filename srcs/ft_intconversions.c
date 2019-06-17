@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:51:44 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/15 08:34:54 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/17 15:37:01 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	ft_isint(va_list ap, t_format *form)
 
 int	ft_isuint(va_list ap, t_format *form)
 {
-	int	num;
+	unsigned long	num;
 
-	num = va_arg(ap, int);
-	num = ft_makeunsigned(num);
+	num = (unsigned long)va_arg(ap, unsigned int);
+	ft_putnbr(num);
 	return (ft_printer(ft_itoa(num), form));
 }

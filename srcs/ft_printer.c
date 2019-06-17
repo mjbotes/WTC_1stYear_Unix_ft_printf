@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:03:40 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/15 15:15:00 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/17 13:17:44 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,21 @@ int	ft_printer(char *str, t_format *form)
 	ret = 0;
 	if (form == NULL)
 		form = ft_newformat();
+	if (str == NULL)
+		return (0);
 	if (form->left_pad != 0)
 	{
 		temp = form->left_pad;
 		temp-=ft_strlen(str);
-		while (temp-- > 0 )
+		if (temp > 0)
+		ret += temp;
+		while (temp-- > 0)
 			ft_putchar(form->pad_type);
 	}
 	if ( form->space > 0)
 	{
 		temp = form->space;
+		ret += temp;
 		while (--temp > 0)
 			ft_putchar(' ');
 	}
@@ -39,13 +44,17 @@ int	ft_printer(char *str, t_format *form)
 	{
 		temp = form->right_pad;
 		temp+=ft_strlen(str);
+		if (temp < 0)
+		ret+= temp * -1;
 		while (temp++ < 0)
 			ft_putchar(form->pad_type);
 	}
 	if (form->space < 0)
 	{
 		temp = form->space;
+		ret+= temp * -1;
 		while (++temp < 0)
 		ft_putchar(' ');
 	}
+	return (ret);
 }

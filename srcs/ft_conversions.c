@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:50:27 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/15 14:25:35 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/17 15:30:01 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	ft_isoct(va_list ap, t_format *form)
 	char	*str;
 
 	i = va_arg(ap, long);
-	if (i >= 0)
 	str = ft_itoa_base(i, 8);
-	else
-	str = ft_itoa_neg_base(i, 8);
 	return (ft_printer(str, form));
 }
 
@@ -43,10 +40,7 @@ int	ft_ishexi(va_list ap, char c, t_format *form)
 	char	*str;
 
 	i = va_arg(ap, long);
-	if (i >= 0)
 	str = ft_itoa_base(i,16);
-	else
-	str = ft_itoa_neg_base(i,16);
 	if (c == 'X')
 		str = ft_makeUpper(str);
 	return(ft_printer(str, form));

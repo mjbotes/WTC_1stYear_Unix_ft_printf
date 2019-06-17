@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:32:29 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/15 15:22:08 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/17 15:29:44 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,30 @@ int		ft_identifier(char c, va_list ap, t_format *form)
 
 int		ft_isflag(char c)
 {
-	return (c == '0' || c == '-' || ft_isdigit(c) || c == '#' || c == ' ');
+	return (c == '0' || c == '-' || ft_isdigit(c) || c == '#' || c == ' ' || c == '.');
 }
 
-void	ft_flag(char **c, t_format *form)
+void	ft_flag(char **c, t_format *form, va_list ap)
 {
 	int		loop;
-
+	int		num;
+	char	*tm;
+	
 	loop = 0;
-	if (*c[0] == '#')
+	if (*(c)[0] == '.')
+	{
+		num = va_arg(ap, int);
+		if (num == 0)
+			form->pad_type = '0';
+		else
+			form->left_pad = num;
+		tm = ft_strdup(&(*(c)[1]));
+		ft_strdel(c);
+		*c = ft_strdupdel(&tm);
+	}
+	else if (*c[0] == '#')
 		ft_hashtag(c, form);
-	if (*c[0] == ' ')
+	else if (*c[0] == ' ')
 		ft_space(c, form);
 	else
 		ft_justify(c, form);	
@@ -96,6 +109,7 @@ int		ft_printf(const char *format, ...)
 	while ((ptr = ft_replacechr(&str, '%', '\0')) != NULL)
 	{
 		ft_putstr(str);
+		ret += ft_strlen(str);
 		tmp = ft_strdup(ptr + 1);
 		ft_strdel(&str);
 	form = ft_newformat();
@@ -104,12 +118,12 @@ int		ft_printf(const char *format, ...)
 			if (form == NULL)
 			   form = ft_newformat();	
 			if (ft_isflag(tmp[0]))
-				ft_flag(&tmp, form);
+				ft_flag(&tmp, form, ap);
 			else if (ft_ischardesc(tmp[0]))
 				ft_chardesc(&tmp, form);
 			else if (ft_isidentifier(tmp[0]))
 			{
-				ft_identifier(tmp[0], ap, form);
+				ret += ft_identifier(tmp[0], ap, form);
 				break ;
 			}
 			else
@@ -126,6 +140,7 @@ int		ft_printf(const char *format, ...)
 		ft_delformat(&form);
 	}
 	ft_putstr(str);
+	ret += ft_strlen(str);
 	va_end(ap);
 	ft_strdel(&str);
 	return (ret);

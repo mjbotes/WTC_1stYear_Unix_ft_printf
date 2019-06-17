@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:33:43 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/15 07:57:41 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/17 14:48:31 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,17 @@ void	ft_justify(char **c, t_format *form)
 	int 	loop;
 	char	*str;
 	int		num;
+	int		start;
 
 	loop = 0;
+	start = 0;
 	if (form->right_pad == 0 && form->left_pad == 0)
 	{
 		if ((*c)[0] == '0')
 		{
 			loop = 1;
 			form->pad_type = '0';
+			start = 1;
 		}
 		if ((*c)[loop] == '+' || (*c)[loop] == '-')
 			loop++;
@@ -52,8 +55,15 @@ void	ft_justify(char **c, t_format *form)
 				++loop;
 		if (loop != 0)
 		{
-			str = ft_strsub(*c, 0, loop);
+			str = ft_strsub(*c, start, loop - start);
 			num = ft_atoi(str);
+			if (form->pad_type == '0')
+			{
+				if (num < 0)
+					form->pad_type = ' ';
+				else
+					num *= -1;
+			}
 			if (num > 0)
 				form->left_pad = num;
 			if (num < 0)
@@ -73,19 +83,17 @@ void	ft_space(char **c, t_format *form)
     int     num;
 
     loop = 1;
-	if (*c[loop] == '-' || *c[loop] == '+')
+	if (*(c)[loop] == '-' || *(c)[loop] == '+')
 		loop++;
+	while (ft_iswhitespace(*(c)[loop]))
+			loop++;
 	while (ft_isdigit(*(c)[loop]))
 		loop ++;
-	str = ft_strsub(*c, 1, loop + 1);
+	str = ft_strsub(*c, 0, loop);
 	num = ft_atoi(str);
-	if (num == 0)
-		num = 0;
-	form->space += num;
-	if (num < 0)
-		loop++;
+	form->space = num;
 	ft_strdel(&str);
-	str = ft_strdup(&(*(c)[loop]));
+	str = ft_strdup(&((*c)[loop]));
 	ft_strdel(c);
 	*c = ft_strdup(str);
 }
