@@ -33,10 +33,10 @@ int		ft_identifier(char c, va_list ap, t_format *form)
 		return (ft_isoct(ap, form));
 	if (c == 'x' || c == 'X')
 		return (ft_ishexi(ap, c, form));
-	if (c == 'c')
-		return (ft_ischar(ap, form));
-	if (c == 'C')
-		return (ft_isunicode(ap, form));
+	if (c == 'c' || c == 'C')
+		return (ft_ischar(ap, c, form));
+//	if (c == 'C')
+//		return (ft_isunicode(ap, form));
 	if (c == 'p')
 		return (ft_printmem(ap, form));
 	return (ft_printer("%", form));
@@ -60,7 +60,6 @@ void	ft_flag(char **c, t_format *form, va_list ap)
 		while (ft_isdigit((*c)[loop + 1]))
 				loop++;
 		tm = ft_strsub(*c, 1, loop);
-		if (form->right_pad == 0 && form->left_pad == 0)
 			form->zeropad = ft_atoi(tm);
 		ft_strdel(&tm);
 		tm = ft_strdup(*c + 1 + loop);

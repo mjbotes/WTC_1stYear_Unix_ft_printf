@@ -24,21 +24,37 @@ void	ft_zeropad(char **str, t_format *form)
 	loop = 0;
 	if (form->zeropad != -1)
 	{
-		while ((*str)[--temp] == '0')
-			zero++;
-		if (form->zeropad  <= zero)
-			(*str)[form->zeropad + temp + 1] = '\0';
-		else 
+		if (form->type != NULL && ft_strcmp(form->type,"ptr") == 0)
 		{
-			tmp = ft_strnew(temp + form->zeropad + 1);
-			ft_strncat(tmp , *str, temp + 1);
-			while (loop++ < form->zeropad)
-				tmp[temp + loop] = '0';
-			ft_strdel(str);
+			tmp = ft_strchr(*str, 'x');
+			loop = ft_strlen(tmp);
+			if ( loop < form->zeropad)
+			{
+				tmp = ft_strnew(2 + form->zeropad);
+				tmp = ft_strncat(tmp, *str, 2);
+				while (zero++ <= form->zeropad - loop)
+					tmp[zero + 1] = '0';
+				ft_strcat(&tmp[zero + 1], &(*str)[2]);
+				*str = ft_strdupdel(&tmp);
+			}
+                	else
+			{
+			        while((*str)[--temp] == '0')
+                        zero++;
+                        (*str)[form->zeropad + temp + 1] = '\0';
+		}
+}
+	else {				
+		if (form->zeropad > temp)
+		{
+			tmp = ft_strnew(form->zeropad);
+			while (zero < form->zeropad - temp)
+				tmp[zero++] = '0';
+			ft_strcat(&tmp[zero],*str);
 			*str = ft_strdupdel(&tmp);
 		}
 	}
-}
+}}
 
 int	ft_printer(char *str, t_format *form)
 {

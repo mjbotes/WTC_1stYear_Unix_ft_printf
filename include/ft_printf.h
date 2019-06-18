@@ -24,12 +24,13 @@ struct			s_format
 	int			space;
 	char		*dot;
 	int			zeropad;
+	char		*type;
 }typedef		t_format;
 
 char			*ft_makeUpper(char *str);
 char			*ft_itohexi(int n);
 char			*ft_itooctal(int n);
-int 			ft_ischar(va_list ap, t_format *form);
+int 			ft_ischar(va_list ap, char ch, t_format *form);
 int			ft_isoct(va_list ap, t_format *form);
 int			ft_ishexi(va_list ap, char c, t_format *form);
 int			ft_isunicode(va_list ap, t_format *form);

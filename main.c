@@ -15,9 +15,10 @@
 
 void main()
 {
-	double i;
-
-	i = 4.2586578;
-	ft_printf("%ju, %ju\n", 0, ULLONG_MAX);
-	printf("%ju, %ju", 0, ULLONG_MAX);
+	ft_printf("%.4d\n", 42);
+	
+	printf("%.1d\n", 42);
+	
+	printf("%20.9p", 1234);
+	
 }

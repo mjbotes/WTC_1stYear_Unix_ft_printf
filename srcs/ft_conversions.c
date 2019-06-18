@@ -12,7 +12,7 @@
 
 #include "../include/ft_printf.h"
 
-int ft_ischar(va_list ap, t_format *form)
+int ft_ischar(va_list ap, char ch, t_format *form)
 {
 	unsigned char	c;
 	char	*str;
@@ -20,6 +20,9 @@ int ft_ischar(va_list ap, t_format *form)
 	
 //	form->type = strdup("str");
 	c = va_arg(ap, int);
+//	if (ch == 'C')
+//		if (ft_islower(c))
+//		ft_toupper(c);
 	ft_putchar(c);
 	return (1);
 }
@@ -28,7 +31,7 @@ int	ft_isoct(va_list ap, t_format *form)
 {
 	long long	i;
 	char	*str;
-	
+	if (form->format != NULL)
 	if (ft_strcmp(form->format, "hh") == 0)
 		i = (unsigned char)va_arg(ap, unsigned int);
 	else if (ft_strcmp(form->format, "h") == 0)
@@ -41,8 +44,7 @@ int	ft_isoct(va_list ap, t_format *form)
 		 return (ft_printer(ft_itoa_base((uintmax_t)va_arg(ap, uintmax_t), 8),form));
 	else if (ft_strcmp(form->format, "z") == 0)
 		 return (ft_printer(ft_itoa_base((size_t)va_arg(ap, size_t), 8),form));
-	else
-		i = va_arg(ap, long long);
+	i = va_arg(ap, long long);
 	str = ft_itoa_base(i, 8);
 	return (ft_printer(str, form));
 }
@@ -57,7 +59,7 @@ int	ft_ishexi(va_list ap, char c, t_format *form)
 	str = ft_itoa_base(i,16);
 	if (c == 'X')
 		str = ft_makeUpper(str);
-	return(ft_printer(str, form));
+	return (ft_printer(str, form));
 }
 
 int	ft_isstring(va_list ap, t_format *form)
