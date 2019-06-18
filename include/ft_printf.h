@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 07:34:28 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/17 12:52:48 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/18 14:37:43 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ struct			s_format
 	int 		left_pad;
 	char		pad_type;
 	char		*format;
+	int			plus;
 	int			space;
+	char		*dot;
+	int			zeropad;
 }typedef		t_format;
 
 char			*ft_makeUpper(char *str);
@@ -53,3 +56,4 @@ int			ft_printer(char *str, t_format *form);
 void			ft_space(char **c, t_format *form);
 
 int			ft_printmem(va_list ap, t_format *form);
+int			ft_isfloat(va_list ap, t_format *form);

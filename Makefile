@@ -1,4 +1,4 @@
-FILENAMES	+= ft_conversions.c ft_flags.c ft_intconversions.c ft_printer.c ft_unicode.c ft_converters.c 
+FILENAMES	+= ft_conversions.c ft_flags.c ft_intconversions.c ft_printer.c ft_unicode.c 
 FILENAMES	+= ft_format.c ft_modifier.c ft_printf.c ft_printmem.c
 
 NAME	 	=	libftprintf.a

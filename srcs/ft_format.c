@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 07:59:39 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/11 12:59:06 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/18 14:24:00 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ t_format	*ft_newformat()
 	new->left_pad = 0;
 	new->pad_type = ' ';
 	new->space  = 0;
+	new->plus = 0;
 	new->format = NULL;
+	new->zeropad = -1;
 	return (new);
 }
 

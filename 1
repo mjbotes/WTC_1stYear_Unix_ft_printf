@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:32:29 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/18 15:19:33 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/18 08:34:00 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 int		ft_isidentifier(char c)
 {
 	return (c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'o' || 
-		   	c == 'O' || c == 'x' || c == 'X' || c == 'c' || c == 'c' || 
-			c == '%' || c == 'p' || c == 'f' || c == 'F');
+		   	c == 'O' || c == 'x' || c == 'X' || c == 'c' || c == 'C' || 
+			c == '%' || c == 'p');
 }
 
 int		ft_identifier(char c, va_list ap, t_format *form)
 {
-	if (c == 'f' || c == 'F')
-		return (ft_isfloat(ap, form));
 	if (c == 's')
 		return (ft_isstring(ap, form));
 	if (c == 'i' || c == 'd')
@@ -56,18 +54,16 @@ void	ft_flag(char **c, t_format *form, va_list ap)
 	loop = 0;
 	if (*(c)[0] == '.')
 	{
-
-		while (ft_isdigit((*c)[loop + 1]))
-				loop++;
-		tm = ft_strsub(*c, 1, loop);
-		if (form->right_pad == 0 && form->left_pad == 0)
-			form->zeropad = ft_atoi(tm);
-		ft_strdel(&tm);
-		tm = ft_strdup(*c + 1 + loop);
+		num = va_arg(ap, int);
+		if (num == 0)
+			form->pad_type = '0';
+		else
+			form->left_pad = num;
+u		tm = ft_strdup(&(*(c)[1]));
 		ft_strdel(c);
 		*c = ft_strdupdel(&tm);
 	}
-	else if (*(c)[0] == '+')
+	else if (*c[0] == '+')
 	{
 		form->plus = 1;
 		tm = ft_strdup(&(*(c)[1]));
@@ -119,7 +115,7 @@ int		ft_printf(const char *format, ...)
 	str = ft_strdup(format);
 	while ((ptr = ft_replacechr(&str, '%', '\0')) != NULL)
 	{
-			ft_putstr(str);
+		ft_putstr(str);
 		ret += ft_strlen(str);
 		tmp = ft_strdup(ptr + 1);
 		ft_strdel(&str);

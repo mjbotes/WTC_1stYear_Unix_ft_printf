@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:51:44 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/17 15:37:01 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/18 16:39:11 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 int	ft_isint(va_list ap, t_format *form)
 {
-	signed char c;
-	short int	b;
+	intmax_t	a;
+
 	if (ft_strcmp(form->format, "hh") == 0)
-	{
-		c = va_arg(ap, int);
-		return (ft_printer(ft_itoa(c), form));
-	}
+		return (ft_printer(ft_itoa((signed char)va_arg(ap, int)), form));
 	else if (ft_strcmp(form->format, "h") == 0)
-	{
-		b = va_arg(ap, int);
-		return (ft_printer(ft_itoa(b), form));
-	}
+		return (ft_printer(ft_itoa((short)va_arg(ap, int)), form));
 	else if (ft_strcmp(form->format, "z") == 0)
 		return (ft_printer(ft_itoa(va_arg(ap, size_t)), form));
 	else if (ft_strcmp(form->format, "j") == 0)
-		return (ft_printer(ft_itoa(va_arg(ap, intmax_t)), form));
+	{
+		if ((a = va_arg(ap, intmax_t)) == -9223372036854775808)
+			return (ft_printer("-9223372036854775808", form)); 
+		return (ft_printer(ft_itoa(a), form));
+	}
 	else if (ft_strcmp(form->format, "l") == 0)
-		return (ft_printer(ft_itoa(va_arg(ap, long)), form));
+		return (ft_printer(ft_itoa((long)va_arg(ap, long)), form));
 	else if (ft_strcmp(form->format, "ll") == 0)
 		return (ft_printer(ft_itoa(va_arg(ap, long long)), form));
 	else
@@ -40,9 +38,32 @@ int	ft_isint(va_list ap, t_format *form)
 
 int	ft_isuint(va_list ap, t_format *form)
 {
-	unsigned long	num;
+	uintmax_t	a;
 
-	num = (unsigned long)va_arg(ap, unsigned int);
-	ft_putnbr(num);
-	return (ft_printer(ft_itoa(num), form));
+	if (ft_strcmp(form->format, "hh") == 0)
+		return (ft_printer(ft_utoa((unsigned char)va_arg(ap, int)), form));
+	else if (ft_strcmp(form->format, "h") == 0)
+		return (ft_printer(ft_utoa((unsigned short)va_arg(ap, int)), form));
+	else if (ft_strcmp(form->format, "z") == 0)
+		return (ft_printer(ft_utoa(va_arg(ap, size_t)), form));
+	else if (ft_strcmp(form->format, "j") == 0)
+	{
+		if ((a = va_arg(ap, uintmax_t)) == 18446744073709551615)
+			return (ft_printer("18446744073709551615", form)); 
+		return (ft_printer(ft_utoa(a), form));
+	}
+	else if (ft_strcmp(form->format, "l") == 0)
+		return (ft_printer(ft_utoa((unsigned long)va_arg(ap, unsigned long)), form));
+	else if (ft_strcmp(form->format, "ll") == 0)
+		return (ft_printer(ft_utoa(va_arg(ap, unsigned long long)), form));
+	else
+		return (ft_printer(ft_utoa(va_arg(ap, unsigned int)), form));
+}
+
+int	ft_isfloat(va_list ap, t_format *form)
+{
+//	if (ft_strcmp(form->format, "l") == 0)
+//		return (ft_printer(ft_dtoa(va_arg(ap, long double)), form));
+//	else
+		return (ft_printer(ft_dtoa(va_arg(ap, double)), form));
 }

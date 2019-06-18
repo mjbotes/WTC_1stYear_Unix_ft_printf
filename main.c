@@ -6,14 +6,18 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 10:02:27 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/17 15:36:36 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/18 16:22:03 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/ft_printf.h"
+#include <limits.h>
 
 void main()
 {
-	ft_printf("%u\n", -42);
-	printf("%u", -42);
- }
+	double i;
+
+	i = 4.2586578;
+	ft_printf("%ju, %ju\n", 0, ULLONG_MAX);
+	printf("%ju, %ju", 0, ULLONG_MAX);
+}
