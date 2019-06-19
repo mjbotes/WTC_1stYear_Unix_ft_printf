@@ -57,13 +57,13 @@ void	ft_justify(char **c, t_format *form)
 		{
 			str = ft_strsub(*c, start, loop - start);
 			num = ft_atoi(str);
-			if (form->pad_type == '0')
+			/*if (form->pad_type == '0')
 			{
 				if (num < 0)
 					form->pad_type = ' ';
 				else
 					num *= -1;
-			}
+			}*/
 			if (num > 0)
 				form->left_pad = num;
 			if (num < 0)

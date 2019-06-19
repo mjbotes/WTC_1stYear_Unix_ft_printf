@@ -15,7 +15,6 @@
 
 void main()
 {
-	ft_printf("%jU, %jU\n", 0, USHRT_MAX);
-	
-	printf("%jU, %jU", 0, USHRT_MAX);	
+	ft_printf("{%f}", 42.48);
+	printf("{%f}", 42.48);	
 }

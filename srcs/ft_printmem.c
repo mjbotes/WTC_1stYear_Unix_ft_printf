@@ -20,7 +20,7 @@ int ft_printmem(va_list ap, t_format *form)
 	char			*tmp;
 
 	ptr = va_arg(ap, void *);
-	form->type = ft_strdup("ptr");
+	form->type = 'p';
 	add = (long)ptr;
 	str = ft_itoa_base(add, 16);
 	tmp = ft_strjoin("0x", str);

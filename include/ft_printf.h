@@ -20,11 +20,10 @@ struct			s_format
 	int 		left_pad;
 	char		pad_type;
 	char		*format;
-	int			plus;
-	int			space;
-	char		*dot;
-	int			zeropad;
-	char		*type;
+	int		plus;
+	int		space;
+	int		zeropad;
+	char		type;
 }typedef		t_format;
 
 char			*ft_makeUpper(char *str);
@@ -35,8 +34,8 @@ int			ft_isoct(va_list ap, t_format *form);
 int			ft_ishexi(va_list ap, char c, t_format *form);
 int			ft_isunicode(va_list ap, t_format *form);
 int			ft_isstring(va_list ap, t_format *form);
-int			ft_isint(va_list ap, t_format *form);
-int 			ft_isuint(va_list ap, t_format *form);
+int			ft_isint(va_list ap, char c, t_format *form);
+int 			ft_isuint(va_list ap, char c, t_format *form);
 int			ft_isidentifier(char c);
 int			ft_identifier(char c, va_list ap, t_format *form);
 int			ft_isflag(char c);
@@ -57,4 +56,5 @@ int			ft_printer(char *str, t_format *form);
 void			ft_space(char **c, t_format *form);
 
 int			ft_printmem(va_list ap, t_format *form);
+int			ft_isOct(va_list ap, t_format *form);
 int			ft_isfloat(va_list ap, t_format *form);

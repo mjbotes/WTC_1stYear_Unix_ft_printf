@@ -12,6 +12,21 @@
 
 #include "../include/ft_printf.h"
 
+void	ft_plus(char **str, t_format *form)
+{
+	char	*tm;
+
+	if ((*str)[0] != '-' && (*str)[0] != '0' && form->type == 'd' && 
+		form->plus)
+	{
+		tm = ft_strdupdel(str);
+		*str = ft_strnew(ft_strlen(tm) + 1);
+		*str[0] = '+';
+		ft_strcat(&((*str)[1]), tm);
+	}
+}
+			
+
 void	ft_zeropad(char **str, t_format *form)
 {
 	char	*tmp;
@@ -22,9 +37,9 @@ void	ft_zeropad(char **str, t_format *form)
 	temp = ft_strlen(*str);
 	zero = 0;
 	loop = 0;
-	if (form->zeropad != -1)
+	if (form->zeropad >= 0)
 	{
-		if (form->type != NULL && ft_strcmp(form->type,"ptr") == 0)
+		if (form->type == 'p')
 		{
 			tmp = ft_strchr(*str, 'x');
 			loop = ft_strlen(tmp);
@@ -42,19 +57,28 @@ void	ft_zeropad(char **str, t_format *form)
 			        while((*str)[--temp] == '0')
                         zero++;
                         (*str)[form->zeropad + temp + 1] = '\0';
+			}
+	}
+		else if (form->type == 'd') 
+		{				
+			if (form->zeropad > temp)
+			{
+				tmp = ft_strnew(form->zeropad);
+				while (zero < form->zeropad - temp)
+					tmp[zero++] = '0';
+				ft_strcat(&tmp[zero],*str);
+				*str = ft_strdupdel(&tmp);
+			}
 		}
-}
-	else {				
-		if (form->zeropad > temp)
+		else if (form->type == 's' && form->zeropad < ft_strlen(*str))
 		{
-			tmp = ft_strnew(form->zeropad);
-			while (zero < form->zeropad - temp)
-				tmp[zero++] = '0';
-			ft_strcat(&tmp[zero],*str);
-			*str = ft_strdupdel(&tmp);
+			tmp = ft_strdup(*str);
+			*str = ft_strnew(form->zeropad + 1);
+			ft_strncat(*str, tmp, form->zeropad);
+			ft_strdel(&tmp);
 		}
 	}
-}}
+}
 
 int	ft_printer(char *str, t_format *form)
 {
@@ -63,17 +87,27 @@ int	ft_printer(char *str, t_format *form)
 	int	zero;
 	char *tmp;
 	int	loop;
+	int	p;
 
 	ret = 0;
+	p = 0;
 	if (form == NULL)
 		form = ft_newformat();
 	if (str == NULL)
 		return (0);
 	ft_zeropad(&str, form);
+	ft_plus(&str, form);
 	if (form->left_pad != 0)
 	{
 		temp = form->left_pad;
+		if (form->pad_type == '0' && str[0] == '-')
+		{
+			ft_putchar('-');
+			p++;
+		}
 		temp-=ft_strlen(str);
+		if (form->type == 'n')
+			temp--;
 		if (temp > 0)
 		ret += temp;
 		while (temp-- > 0)
@@ -86,20 +120,22 @@ int	ft_printer(char *str, t_format *form)
 		while (--temp > 0)
 			ft_putchar(' ');
 	}
-	if (form->plus)
-		ft_putchar('+');
-	ft_putstr(str);
+	if (form->type == 'n' && ret++)
+			ft_putchar(0);
+	ft_putstr(str + p);
 	ret += ft_strlen(str);
 	if (form->right_pad != 0)
 	{
 		temp = form->right_pad;
 		temp+=ft_strlen(str);
+		if (form->type == 'n')
+			temp++;
 		if (temp < 0)
 		ret+= temp * -1;
 		while (temp++ < 0)
 			ft_putchar(form->pad_type);
 	}
-	if (form->space < 0)
+if (form->space < 0)
 	{
 		temp = form->space;
 		ret+= temp * -1;
