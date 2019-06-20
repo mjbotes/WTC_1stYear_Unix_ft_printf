@@ -24,6 +24,7 @@ struct			s_format
 	int		space;
 	int		zeropad;
 	char		type;
+	int		nulls;
 }typedef		t_format;
 
 char			*ft_makeUpper(char *str);

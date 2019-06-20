@@ -17,7 +17,7 @@ void	ft_plus(char **str, t_format *form)
 	char	*tm;
 
 	if ((*str)[0] != '-' && (*str)[0] != '0' && form->type == 'd' && 
-		form->plus)
+		form->plus && form->type == 'd')
 	{
 		tm = ft_strdupdel(str);
 		*str = ft_strnew(ft_strlen(tm) + 1);
@@ -120,9 +120,12 @@ int	ft_printer(char *str, t_format *form)
 		while (--temp > 0)
 			ft_putchar(' ');
 	}
-	if (form->type == 'n' && ret++)
-			ft_putchar(0);
-	ft_putstr(str + p);
+	if (form->type == 'n')
+	{
+		ft_putchar(0);
+		ret++;
+	}
+	ft_putstr(str);
 	ret += ft_strlen(str);
 	if (form->right_pad != 0)
 	{

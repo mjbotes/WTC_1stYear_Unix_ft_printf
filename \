@@ -37,7 +37,7 @@ int	ft_isuint(va_list ap, char c, t_format *form)
 {
 	uintmax_t	a;
 
-	form->type = 'u';	
+	form->type = 'd';	
 	if (form->format == NULL)
 		form->format = ft_strnew(1);
 	if (ft_strcmp(form->format, "hh") == 0)

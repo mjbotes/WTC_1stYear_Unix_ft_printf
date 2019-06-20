@@ -25,6 +25,7 @@ t_format	*ft_newformat()
 	new->plus = 0;
 	new->format = NULL;
 	new->type = ' ';
+	new->nulls = 0;
 	new->zeropad = -1;
 	return (new);
 }

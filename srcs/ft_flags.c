@@ -91,6 +91,8 @@ void	ft_space(char **c, t_format *form)
 		loop ++;
 	str = ft_strsub(*c, 0, loop);
 	num = ft_atoi(str);
+	if (num == 0)
+		num = 1;
 	form->space = num;
 	ft_strdel(&str);
 	str = ft_strdup(&((*c)[loop]));
