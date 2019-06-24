@@ -47,7 +47,7 @@ int		ft_identifier(char c, va_list ap, t_format *form)
 
 int		ft_isflag(char c)
 {
-	return (c == '0' || c == '-' || c == '+' || ft_isdigit(c) || c == '#' || c == ' ' || c == '.');
+	return (c == '0' || c == '-' || c == '+' || ft_isdigit(c) || c == '*' || c == '#' || c == ' ' || c == '.');
 }
 
 void	ft_flag(char **c, t_format *form, va_list ap)
@@ -56,16 +56,20 @@ void	ft_flag(char **c, t_format *form, va_list ap)
 	int		num;
 	char	*tm;
 	
-	loop = 0;
+	loop = 1;
 	if (*(c)[0] == '.')
 	{
-
-		while (ft_isdigit((*c)[loop + 1]))
+		if ((*c)[loop] == '*' && loop++)
+			form->zeropad = va_arg(ap, int);
+		else
+		{
+		while (ft_isdigit((*c)[loop]))
 				loop++;
 		tm = ft_strsub(*c, 1, loop);
 			form->zeropad = ft_atoi(tm);
 		ft_strdel(&tm);
-		tm = ft_strdup(*c + 1 + loop);
+		}
+		tm = ft_strdup(*c + loop);
 		ft_strdel(c);
 		*c = ft_strdupdel(&tm);
 	}
@@ -80,6 +84,8 @@ void	ft_flag(char **c, t_format *form, va_list ap)
 		ft_hashtag(c, form);
 	else if (*c[0] == ' ')
 		ft_space(c, form);
+	else if (*c[0] == '*')
+		ft_wildcard(ap, c, form);
 	else
 		ft_justify(c, form);	
 }

@@ -76,6 +76,22 @@ void	ft_justify(char **c, t_format *form)
 	}	
 }
 
+void	ft_wildcard(va_list ap, char **c, t_format *form)
+{
+	int	num;
+	char	*str;
+
+	num = va_arg(ap, int);
+	if (num == 0)
+		form->pad_type = '0';
+	if (num > 0)
+		form->left_pad = num;
+	if (num < 0)
+		form->right_pad = num;
+	str = ft_strdup(&(*c)[1]);
+	*c = ft_strdupdel(&str);
+}
+
 void	ft_space(char **c, t_format *form)
 {
     int     loop;
@@ -83,7 +99,9 @@ void	ft_space(char **c, t_format *form)
     int     num;
 
     loop = 1;
-	if (*(c)[loop] == '-' || *(c)[loop] == '+')
+{
+
+}	if (*(c)[loop] == '-' || *(c)[loop] == '+')
 		loop++;
 	while (ft_iswhitespace(*(c)[loop]))
 			loop++;

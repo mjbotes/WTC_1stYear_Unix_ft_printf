@@ -27,6 +27,7 @@ struct			s_format
 	int		nulls;
 }typedef		t_format;
 
+void			ft_wildcard(va_list ap, char **c, t_format *form);
 char			*ft_makeUpper(char *str);
 char			*ft_itohexi(int n);
 char			*ft_itooctal(int n);
