@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:51:44 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/18 16:39:11 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/29 09:49:18 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	ft_isuint(va_list ap, char c, t_format *form)
 {
 	uintmax_t	a;
 
-	form->type = 'u';	
+	form->type = 'u';
+	if (c == 'U')
+		return (ft_printer(ft_utoa((uintmax_t)va_arg(ap, uintmax_t)), form));
 	if (form->format == NULL)
 		form->format = ft_strnew(1);
 	if (ft_strcmp(form->format, "hh") == 0)

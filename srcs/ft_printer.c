@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 14:03:40 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/18 15:16:34 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/29 12:12:01 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_zeropad(char **str, t_format *form)
 	int		zero;
 	int		loop;
 
-	temp = ft_strlen(*str);
+	temp = ft_strlen((char *)*str);
 	zero = 0;
 	loop = 0;
 	if (form->zeropad >= 0)
@@ -59,7 +59,7 @@ void	ft_zeropad(char **str, t_format *form)
                         (*str)[form->zeropad + temp + 1] = '\0';
 			}
 	}
-		else if (form->type == 'd') 
+		else if (form->type == 'd' || form->type == 'x' || form->type == 'X' || form->type == 'o') 
 		{				
 			if (form->zeropad > temp)
 			{
@@ -85,7 +85,6 @@ int	ft_printer(char *str, t_format *form)
 	int temp;
 	int ret;
 	int	zero;
-	char *tmp;
 	int	loop;
 	int	p;
 
@@ -95,6 +94,8 @@ int	ft_printer(char *str, t_format *form)
 		form = ft_newformat();
 	if (str == NULL)
 		return (0);
+	if (form->hashtag == 1)
+		ret = ft_hashtag(&str, form);
 	ft_zeropad(&str, form);
 	ft_plus(&str, form);
 	if (form->left_pad != 0)
@@ -103,7 +104,9 @@ int	ft_printer(char *str, t_format *form)
 		if (form->pad_type == '0' && str[0] == '-')
 		{
 			ft_putchar('-');
-			p++;
+			ft_remnchars(&str, 1);
+			temp--;
+			ret++;
 		}
 		temp-=ft_strlen(str);
 		if (form->type == 'n')
@@ -130,7 +133,7 @@ int	ft_printer(char *str, t_format *form)
 	if (form->right_pad != 0)
 	{
 		temp = form->right_pad;
-		temp+=ft_strlen(str);
+		temp+=ft_strlen((char *)str);
 		if (form->type == 'n')
 			temp++;
 		if (temp < 0)

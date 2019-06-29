@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 10:02:27 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/19 07:01:08 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/29 12:12:38 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void main()
 {
-	ft_putnbr(ft_printf("{%3c}\n", 0));
-	ft_putnbr(printf("{%3c}\n", 0));
+	ft_putnbr(ft_printf("% p|%+p\n", 42, 42));
+	ft_putnbr(printf("% p|%+p", 42, 42));
 }

@@ -6,30 +6,30 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 08:33:43 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/18 13:36:59 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/29 13:03:34 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
 
-void	ft_hashtag(char **c, t_format *form)
+int		ft_hashtag(char **c, t_format *form)
 {
-	int 	loop;
-	char	*str;
-	int		num;
-
-	loop = 0;
-	while (ft_isdigit(*c[loop]))
-			loop ++;
-	if (loop != 0)
+	if (form->type == 'x' && (!*c || ft_strncmp(*c, "0x", 2) != 0))
 	{
-		str = ft_strndup(*c, loop);
-		num = ft_atoi(str);
-		ft_strdel(&str);
-		str = ft_strdup(*(c + loop));
-		ft_strdel(c);
-		*c = ft_strdup(str);
+		ft_putstr("0x");
+		return (1);
 	}
+	if (form->type == 'X' && (!*c || ft_strncmp(*c, "0X", 2) != 0))
+	{
+		ft_putstr("0X");
+		return (1);
+	}
+	if (form->type == 'o' && (*c)[0] != '0')
+	{
+		ft_putstr("0");
+		return (0);
+	}
+	return (0);
 }
 
 void	ft_justify(char **c, t_format *form)
@@ -57,21 +57,12 @@ void	ft_justify(char **c, t_format *form)
 		{
 			str = ft_strsub(*c, start, loop - start);
 			num = ft_atoi(str);
-			/*if (form->pad_type == '0')
-			{
-				if (num < 0)
-					form->pad_type = ' ';
-				else
-					num *= -1;
-			}*/
 			if (num > 0)
 				form->left_pad = num;
 			if (num < 0)
 				form->right_pad = num;
 			ft_strdel(&str);
-			str = ft_strdup(*(c) + loop);
-			ft_strdel(c);
-			*c = ft_strdup(str);
+			ft_remnchars(c, loop);
 		}
 	}	
 }
@@ -88,8 +79,7 @@ void	ft_wildcard(va_list ap, char **c, t_format *form)
 		form->left_pad = num;
 	if (num < 0)
 		form->right_pad = num;
-	str = ft_strdup(&(*c)[1]);
-	*c = ft_strdupdel(&str);
+	ft_remnchars(c, 1);
 }
 
 void	ft_space(char **c, t_format *form)
@@ -99,9 +89,7 @@ void	ft_space(char **c, t_format *form)
     int     num;
 
     loop = 1;
-{
-
-}	if (*(c)[loop] == '-' || *(c)[loop] == '+')
+	if (*(c)[loop] == '-' || *(c)[loop] == '+')
 		loop++;
 	while (ft_iswhitespace(*(c)[loop]))
 			loop++;
@@ -113,17 +101,5 @@ void	ft_space(char **c, t_format *form)
 		num = 1;
 	form->space = num;
 	ft_strdel(&str);
-	str = ft_strdup(&((*c)[loop]));
-	ft_strdel(c);
-	*c = ft_strdup(str);
-}
-
-void	ft_isintmax(t_format form)
-{
-
-}
-
-void	ft_issizet(tformat)
-{
-
+	ft_remnchars(c, loop);
 }

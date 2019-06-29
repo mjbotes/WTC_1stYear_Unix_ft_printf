@@ -6,7 +6,7 @@
 /*   By: mbotes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 07:59:39 by mbotes            #+#    #+#             */
-/*   Updated: 2019/06/18 14:24:00 by mbotes           ###   ########.fr       */
+/*   Updated: 2019/06/29 11:06:13 by mbotes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_format	*ft_newformat()
 	new->plus = 0;
 	new->format = NULL;
 	new->type = ' ';
-	new->nulls = 0;
+	new->hashtag = 0;
 	new->zeropad = -1;
 	return (new);
 }
